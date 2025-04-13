@@ -1,0 +1,16 @@
+{
+    "name": "chartjs-plugin-regression",
+    "version": "0.1.0",
+    "description": "Regression Trendlines for Chart.js",
+    "main": "src/chartjs-plugin-regression.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PollsterAudit/chartjs-plugin-regression.git"
+    },
+    "author": "FX Morin",
+    "license": "GPL-3",
+    "bugs": {
+        "url": "https://github.com/PollsterAudit/chartjs-plugin-regression/issues"
+    }
+}
