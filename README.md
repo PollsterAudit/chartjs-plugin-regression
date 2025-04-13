@@ -1,4 +1,4 @@
-# chartjs-plugin-regression
+# chartjs-plugin-regression-trendline
 
 A plugin for [Chart.js 4](https://www.chartjs.org/) that adds support for local and global regression trendlines, including advanced local polynomial smoothing.
 
@@ -14,7 +14,7 @@ Check out an example at [https://pollsteraudit.ca](https://pollsteraudit.ca/)
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-regression/dist/chartjs-plugin-regression.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-regression-trendline/dist/chartjs-plugin-regression-trendline.min.js"></script>
 ```
 Make sure chart.js is loaded first!  
 That's it, now you just need to add it to a chart.
@@ -22,14 +22,14 @@ That's it, now you just need to add it to a chart.
 ### With NPM
 
 ```bash
-npm install chart.js chartjs-plugin-regression
+npm install chart.js chartjs-plugin-regression-trendline
 ```
 
 Import and register the plugin with Chart.js:
 
 ```js
 import { Chart, registerables } from 'chart.js';
-import regressionTrendline from 'chartjs-plugin-regression';
+import regressionTrendline from 'chartjs-plugin-regression-trendline';
 
 Chart.register(...registerables, regressionTrendline);
 ```
@@ -107,8 +107,6 @@ The plugin includes a `WeightStrategies` class with helpful utilities for defini
 Example usage:
 
 ```js
-import { WeightStrategies } from 'chartjs-plugin-regression';
-
 const data = [
     {
         "SampleSize": 1500,

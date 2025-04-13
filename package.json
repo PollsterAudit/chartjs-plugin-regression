@@ -1,20 +1,20 @@
 {
-    "name": "chartjs-plugin-regression",
+    "name": "chartjs-plugin-regression-trendline",
     "version": "1.0.0",
     "description": "Regression Trendlines for Chart.js",
-    "main": "src/chartjs-plugin-regression.js",
+    "main": "src/chartjs-plugin-regression-trendline.js",
     "scripts": {
         "build": "webpack --mode=production"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/PollsterAudit/chartjs-plugin-regression.git"
+        "url": "git+https://github.com/PollsterAudit/chartjs-plugin-regression-trendline.git"
     },
     "author": "FX Morin",
     "license": "MIT",
-    "homepage": "https://github.com/PollsterAudit/chartjs-plugin-regression#readme",
+    "homepage": "https://github.com/PollsterAudit/chartjs-plugin-regression-trendline#readme",
     "bugs": {
-        "url": "https://github.com/PollsterAudit/chartjs-plugin-regression/issues"
+        "url": "https://github.com/PollsterAudit/chartjs-plugin-regression-trendline/issues"
     },
     "funding": "https://opencollective.com/pollster-audit",
     "devDependencies": {
