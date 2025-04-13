@@ -4,9 +4,6 @@ const path = require('path');
 module.exports = {
     entry: './src/chartjs-plugin-regression-trendline.js',
     optimization: {
-        removeEmptyChunks: false,
-        innerGraph: false,
-        mangleExports: false,
         minimizer: [
             new TerserPlugin({
                 terserOptions: {

@@ -633,6 +633,7 @@ if (typeof window !== 'undefined' && window.Chart) {
     } else {
         window.Chart.plugins.register(regressionPlugin);
     }
+    window.WeightStrategies = WeightStrategies; // Webpack hack to access the class in the browser
 }
 
 // Otherwise, try to export the plugin
