@@ -2,7 +2,9 @@
 
 A plugin for [Chart.js 4](https://www.chartjs.org/) that adds support for local and global regression trendlines, including advanced local polynomial smoothing.
 
-> 📈 Supports linear, polynomial, exponential, logarithmic, power, and local smoothing trendlines
+> 📈 Supports linear, polynomial, exponential, logarithmic, power, and local smoothing trendlines  
+
+Check out an example at [https://pollsteraudit.ca](https://pollsteraudit.ca/)  
 
 ---
 
