@@ -637,5 +637,6 @@ if (typeof window !== 'undefined' && window.Chart) {
 
 // Otherwise, try to export the plugin
 try {
-    module.exports = exports = regressionPlugin;
+    module.exports = regressionPlugin;
+    module.exports = WeightStrategies;
 } catch (e) {}
