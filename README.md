@@ -1,5 +1,16 @@
 # chartjs-plugin-regression-trendline
 
+<div align="center">
+
+[![NPM version](https://img.shields.io/npm/v/chartjs-plugin-regression-trendline.svg)](https://npmjs.org/package/chartjs-plugin-regression-trendline)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PollsterAudit/chartjs-plugin-regression-trendline/blob/master/LICENSE)
+[![NPM downloads](https://img.shields.io/npm/dm/chartjs-plugin-regression-trendline.svg)](https://npmjs.org/package/chartjs-plugin-regression-trendline)
+![Hits Of Code](https://hitsofcode.com/github/pollsteraudit/chartjs-plugin-regression-trendline?branch=main)
+[![Discord](https://img.shields.io/discord/1359947804981858324?logo=discord)](https://discord.gg/6grVnjE3DC)
+[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/pollster-audit)](https://opencollective.com/pollster-audit)
+
+</div>
+
 A plugin for [Chart.js 4](https://www.chartjs.org/) that adds support for local and global regression trendlines, including advanced local polynomial smoothing.
 
 > 📈 Supports linear, polynomial, exponential, logarithmic, power, and local smoothing trendlines  
@@ -137,7 +148,7 @@ The plugin was built to work with line graphs, and hasn't been tested with other
 
 ## 📜 License
 
-This project is using the [MIT License](LICENSE)
+This project is using the [MIT License](https://github.com/PollsterAudit/chartjs-plugin-regression-trendline/blob/master/LICENSE)
 
 ---
 
