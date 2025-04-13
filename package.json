@@ -11,7 +11,7 @@
         "url": "git+https://github.com/PollsterAudit/chartjs-plugin-regression.git"
     },
     "author": "FX Morin",
-    "license": "GPL-3",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/PollsterAudit/chartjs-plugin-regression/issues"
     },
