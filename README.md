@@ -69,6 +69,7 @@ const config = {
     plugins: {
       regressionTrendline: {
         enabled: true,
+        hidden: false, // when set, overrides the dataset hidden flag
         type: 'local', // or 'linear', 'exponential', 'logarithmic', 'power', 'polynomial'
         span: 0.5,     // Only applies for 'local'
         degree: 2,     // Only applies for 'local' or 'polynomial'
@@ -89,6 +90,7 @@ const config = {
 | Option        | Type                                                                               | Description                                                                                       |
 |---------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | `enabled`     | `boolean`                                                                          | Enable/disable the trendline                                                                      |
+| `hidden`      | `boolean`                                                                          | Overrides the dataset hidden flag                                                                 |
 | `type`        | `'local' \| 'linear' \| 'exponential' \| 'logarithmic' \| 'power' \| 'polynomial'` | Type of regression                                                                                |
 | `span`        | `number (0–1)`                                                                     | For local regression: percentage of data in the neighborhood                                      |
 | `degree`      | `number (0–3+)`                                                                    | Degree of polynomial for local regression. 0 = constant, 1 = linear, etc. Not recommended above 3 |

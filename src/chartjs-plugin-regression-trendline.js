@@ -119,6 +119,11 @@ const regressionPlugin = {
         const borderWidth = pluginOptions.borderWidth || 2;
 
         chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const hidden = pluginOptions.hidden || dataset.hidden || false;
+            if (hidden) {
+                return;
+            }
+
             const color = pluginOptions.color || (dataset.borderColor || 'rgba(0,0,0,0.6)');
 
             const points = chart.regressionTrendlineCache[datasetIndex];
