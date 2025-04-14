@@ -83,7 +83,7 @@ const regressionPlugin = {
             const points = [];
             for (let i = -1; i <= steps + 1; i++) {
                 const x = xMin + i * step;
-                const y = regression.predict(x);
+                const y = regression(x);
                 if (isFinite(y)) {
                     points.push({ x, y });
                 }
@@ -366,62 +366,56 @@ class RegressionCalculator {
             : RegressionCalculator.#fallbackRegression(normalizedData, type, degree);
 
         // Adjust prediction function to account for normalization
-        return {
-            predict(x) {
-                return regression.predict(x - xMin);
-            },
-            equation: regression.equation
-        };
+        return (x) => regression(x - xMin);
+        // equation: regression.equation
     }
 
     static #computeLocalRegression(data, type = 'linear', degree = 2, span = 0.3) {
         // For local regression, data is assumed normalized and may contain "weight".
-        return {
-            predict(x0) {
-                // Compute distances using normalized x values.
-                const distances = data.map(p => Math.abs(p.x - x0));
-                const sorted = distances
-                    .map((d, i) => ({ index: i, dist: d }))
-                    .sort((a, b) => a.dist - b.dist);
-                const bandwidth = Math.floor(span * data.length);
-                const maxDist = sorted[bandwidth - 1]?.dist || 1e-10;
+        return (x0) => {
+            // Compute distances using normalized x values.
+            const distances = data.map(p => Math.abs(p.x - x0));
+            const sorted = distances
+                .map((d, i) => ({ index: i, dist: d }))
+                .sort((a, b) => a.dist - b.dist);
+            const bandwidth = Math.floor(span * data.length);
+            const maxDist = sorted[bandwidth - 1]?.dist || 1e-10;
 
-                const tricube = d => {
-                    const w = 1 - Math.pow(d / maxDist, 3);
-                    return Math.pow(Math.max(0, w), 3);
-                };
+            const tricube = d => {
+                const w = 1 - Math.pow(d / maxDist, 3);
+                return Math.pow(Math.max(0, w), 3);
+            };
 
-                const W = new Array(bandwidth);
-                const X = new Array(bandwidth);
-                const Y = new Array(bandwidth);
+            const W = new Array(bandwidth);
+            const X = new Array(bandwidth);
+            const Y = new Array(bandwidth);
 
-                for (let i = 0; i < bandwidth; i++) {
-                    const { index } = sorted[i];
-                    const xi = data[index].x;
-                    const yi = data[index].y;
-                    const wCustom = data[index].weight || 1;
-                    const dist = Math.abs(xi - x0);
-                    // Multiply the tricube weight with the custom point weight
-                    W[i] = tricube(dist) * wCustom;
-                    X[i] = Array.from({ length: degree + 1 }, (_, d) => Math.pow(xi, d));
-                    Y[i] = yi;
-                }
+            for (let i = 0; i < bandwidth; i++) {
+                const { index } = sorted[i];
+                const xi = data[index].x;
+                const yi = data[index].y;
+                const wCustom = data[index].weight || 1;
+                const dist = Math.abs(xi - x0);
+                // Multiply the tricube weight with the custom point weight
+                W[i] = tricube(dist) * wCustom;
+                X[i] = Array.from({ length: degree + 1 }, (_, d) => Math.pow(xi, d));
+                Y[i] = yi;
+            }
 
-                // Weighted least squares: solve (Xᵗ W X) β = Xᵗ W y
-                const XT = RegressionCalculator.#transpose(X);
-                const WX = XT.map((row, j) =>
-                    row.map((val, i) => val * W[i])
-                );
-                const XTWX = RegressionCalculator.#multiply(WX, X);
-                const XTWY = WX.map((row) =>
-                    row.reduce((sum, v, i) => sum + v * Y[i], 0)
-                );
-                const coeffs = RegressionCalculator.#gaussJordanSolve(XTWX, XTWY);
+            // Weighted least squares: solve (Xᵗ W X) β = Xᵗ W y
+            const XT = RegressionCalculator.#transpose(X);
+            const WX = XT.map((row, j) =>
+                row.map((val, i) => val * W[i])
+            );
+            const XTWX = RegressionCalculator.#multiply(WX, X);
+            const XTWY = WX.map((row) =>
+                row.reduce((sum, v, i) => sum + v * Y[i], 0)
+            );
+            const coeffs = RegressionCalculator.#gaussJordanSolve(XTWX, XTWY);
 
-                return coeffs.reduce((sum, c, i) => sum + c * (x0 ** i), 0);
-            },
-            equation: `local regression (degree ${degree}, span ${span})`
+            return coeffs.reduce((sum, c, i) => sum + c * (x0 ** i), 0);
         };
+        // equation: `local regression (degree ${degree}, span ${span})`
     }
 
     static #fallbackRegression(data, type, degree) {
@@ -440,19 +434,15 @@ class RegressionCalculator {
             const denominator = weightedSum(x.map(xi => (xi - xMean) ** 2));
 
             if (Math.abs(denominator) < 1e-10) {
-                return {
-                    predict: () => yMean,
-                    equation: `y = ${yMean.toFixed(2)} (flat line)`
-                };
+                return () => yMean;
+                // equation: `y = ${yMean.toFixed(2)} (flat line)`
             }
 
             const slope = weightedSum(x.map((xi, i) => (xi - xMean) * (y[i] - yMean))) / denominator;
             const intercept = yMean - slope * xMean;
 
-            return {
-                predict: x => slope * x + intercept,
-                equation: `y = ${slope.toFixed(2)}x + ${intercept.toFixed(2)}`
-            };
+            return x => slope * x + intercept;
+            // equation: `y = ${slope.toFixed(2)}x + ${intercept.toFixed(2)}`
         }
 
         if (type === 'exponential') {
@@ -462,10 +452,8 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: p.x, y: logY[i], weight: weights[i] })),
                 'linear'
             );
-            return {
-                predict: xVal => Math.exp(lin.predict(xVal)),
-                equation: `y = exp(${lin.equation})`
-            };
+            return xVal => Math.exp(lin.predict(xVal));
+            // equation: `y = exp(${lin.equation})`
         }
 
         if (type === 'logarithmic') {
@@ -474,10 +462,8 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: logX[i], y: y[i], weight: weights[i] })),
                 'linear'
             );
-            return {
-                predict: xVal => lin.predict(Math.log(xVal)),
-                equation: `y = ${lin.equation} (log x)`
-            };
+            return xVal => lin.predict(Math.log(xVal));
+            // equation: `y = ${lin.equation} (log x)`
         }
 
         if (type === 'power') {
@@ -487,10 +473,8 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: logX[i], y: logY[i], weight: weights[i] })),
                 'linear'
             );
-            return {
-                predict: xVal => Math.exp(lin.predict(Math.log(xVal))),
-                equation: `y = exp(${lin.equation})`
-            };
+            return xVal => Math.exp(lin.predict(Math.log(xVal)));
+            // equation: `y = exp(${lin.equation})`
         }
 
         if (type === 'polynomial') {
@@ -510,10 +494,8 @@ class RegressionCalculator {
             const XTY = XT.map(row => row.reduce((a, b, i) => a + b * Y[i], 0));
             const coeffs = RegressionCalculator.#gaussJordanSolve(XTX, XTY);
 
-            return {
-                predict: xVal => coeffs.reduce((sum, c, i) => sum + c * (xVal ** i), 0),
-                equation: `y = ${coeffs.map((c, i) => `${c.toFixed(2)}x^${i}`).join(' + ')}`
-            };
+            return xVal => coeffs.reduce((sum, c, i) => sum + c * (xVal ** i), 0);
+            // equation: `y = ${coeffs.map((c, i) => `${c.toFixed(2)}x^${i}`).join(' + ')}`
         }
         throw new Error(`Unsupported regression type: ${type}`);
     }
