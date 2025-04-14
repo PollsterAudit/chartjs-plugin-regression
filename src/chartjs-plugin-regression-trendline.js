@@ -119,7 +119,7 @@ const regressionPlugin = {
         const borderWidth = pluginOptions.borderWidth || 2;
 
         chart.data.datasets.forEach((dataset, datasetIndex) => {
-            const hidden = pluginOptions.hidden || dataset.hidden || false;
+            const hidden = pluginOptions.hidden || !chart.isDatasetVisible(datasetIndex);
             if (hidden) {
                 return;
             }
