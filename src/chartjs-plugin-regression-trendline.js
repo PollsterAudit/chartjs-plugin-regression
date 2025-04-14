@@ -22,26 +22,22 @@ const regressionPlugin = {
         }
 
         chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const clearDatasetCache = () => chart.regressionTrendlineCache &&
+                (chart.regressionTrendlineCache[datasetIndex] = null);
             const rawData = dataset.data;
             if (!rawData?.length) {
-                if (chart.regressionTrendlineCache) {
-                    chart.regressionTrendlineCache[datasetIndex] = null;
-                }
+                clearDatasetCache();
                 return;
             }
 
             if (dataset.regressionTrendline && !dataset.regressionTrendline.showLine) {
-                if (chart.regressionTrendlineCache) {
-                    chart.regressionTrendlineCache[datasetIndex] = null;
-                }
+                clearDatasetCache();
                 return;
             }
 
             // Must be at least 3 points
             if (!Array.isArray(rawData) || rawData.length < 3) {
-                if (chart.regressionTrendlineCache) {
-                    chart.regressionTrendlineCache[datasetIndex] = null;
-                }
+                clearDatasetCache();
                 return;
             }
 
@@ -68,9 +64,7 @@ const regressionPlugin = {
                 }
             }
             if (uniqueXPoints.length <= 1) {
-                if (chart.regressionTrendlineCache) {
-                    chart.regressionTrendlineCache[datasetIndex] = null;
-                }
+                clearDatasetCache();
                 return;
             }
 
