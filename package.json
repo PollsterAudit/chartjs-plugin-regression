@@ -1,6 +1,6 @@
 {
     "name": "chartjs-plugin-regression-trendline",
-    "version": "1.2.1",
+    "version": "1.2.3",
     "description": "Regression Trendlines for Chart.js",
     "main": "src/chartjs-plugin-regression-trendline.js",
     "scripts": {
