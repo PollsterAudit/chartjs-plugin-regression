@@ -452,7 +452,7 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: p.x, y: logY[i], weight: weights[i] })),
                 'linear'
             );
-            return xVal => Math.exp(lin.predict(xVal));
+            return xVal => Math.exp(lin(xVal));
             // equation: `y = exp(${lin.equation})`
         }
 
@@ -462,7 +462,7 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: logX[i], y: y[i], weight: weights[i] })),
                 'linear'
             );
-            return xVal => lin.predict(Math.log(xVal));
+            return xVal => lin(Math.log(xVal));
             // equation: `y = ${lin.equation} (log x)`
         }
 
@@ -473,7 +473,7 @@ class RegressionCalculator {
                 data.map((p, i) => ({ x: logX[i], y: logY[i], weight: weights[i] })),
                 'linear'
             );
-            return xVal => Math.exp(lin.predict(Math.log(xVal)));
+            return xVal => Math.exp(lin(Math.log(xVal)));
             // equation: `y = exp(${lin.equation})`
         }
 
