@@ -20,7 +20,6 @@
     "funding": "https://opencollective.com/pollster-audit",
     "devDependencies": {
         "glob": "^11.0.1",
-        "terser-webpack-plugin": "^5.3.14",
         "webpack": "^5.99.5",
         "webpack-cli": "^6.0.1"
     }
