@@ -4,7 +4,7 @@
     "description": "Regression Trendlines for Chart.js",
     "main": "src/chartjs-plugin-regression-trendline.js",
     "scripts": {
-        "test": "",
+        "test": "node ./test/test.js",
         "build": "webpack --mode=production"
     },
     "repository": {

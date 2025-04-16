@@ -16,15 +16,15 @@ export class RegressionCalculator {
 
         // Compute regression on normalized data
         const regression = (type === 'local')
-            ? RegressionCalculator.#computeLocalRegression(normalizedData, degree, span)
-            : RegressionCalculator.#fallbackRegression(normalizedData, type, degree);
+            ? RegressionCalculator.computeLocalRegression(normalizedData, degree, span)
+            : RegressionCalculator.fallbackRegression(normalizedData, type, degree);
 
         // Adjust prediction function to account for normalization
         return (x) => regression(x - xMin);
         // equation: regression.equation
     }
 
-    static #computeLocalRegression(data, type = 'linear', degree = 2, span = 0.3) {
+    static computeLocalRegression(data, degree = 2, span = 0.3) {
         // For local regression, data is assumed normalized and may contain "weight".
         return (x0) => {
             // Compute distances using normalized x values.
@@ -72,7 +72,7 @@ export class RegressionCalculator {
         // equation: `local regression (degree ${degree}, span ${span})`
     }
 
-    static #fallbackRegression(data, type, degree) {
+    static fallbackRegression(data, type, degree) {
         // Extract normalized x and y arrays from data.
         const x = data.map(p => p.x);
         const y = data.map(p => p.y);
@@ -102,7 +102,7 @@ export class RegressionCalculator {
         if (type === 'exponential') {
             // Transform y values and use linear regression on the log scale.
             const logY = y.map(v => Math.log(v));
-            const lin = RegressionCalculator.#fallbackRegression(
+            const lin = RegressionCalculator.fallbackRegression(
                 data.map((p, i) => ({ x: p.x, y: logY[i], weight: weights[i] })),
                 'linear'
             );
@@ -112,7 +112,7 @@ export class RegressionCalculator {
 
         if (type === 'logarithmic') {
             const logX = x.map(v => Math.log(v));
-            const lin = RegressionCalculator.#fallbackRegression(
+            const lin = RegressionCalculator.fallbackRegression(
                 data.map((p, i) => ({ x: logX[i], y: y[i], weight: weights[i] })),
                 'linear'
             );
@@ -123,7 +123,7 @@ export class RegressionCalculator {
         if (type === 'power') {
             const logX = x.map(v => Math.log(v));
             const logY = y.map(v => Math.log(v));
-            const lin = RegressionCalculator.#fallbackRegression(
+            const lin = RegressionCalculator.fallbackRegression(
                 data.map((p, i) => ({ x: logX[i], y: logY[i], weight: weights[i] })),
                 'linear'
             );
